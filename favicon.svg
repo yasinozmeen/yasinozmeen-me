@@ -6,8 +6,9 @@
     font-weight="400"
     font-size="22"
     fill="#ECEAE2"
-    x="2"
+    x="16"
     y="23"
+    text-anchor="middle"
     letter-spacing="-1"
   >ky</text>
 </svg>
