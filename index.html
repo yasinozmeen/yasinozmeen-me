@@ -254,7 +254,8 @@
     z-index: 6;
   }
   .proj:hover .dropdown,
-  .proj:focus-within .dropdown {
+  .proj:focus-within .dropdown,
+  .proj.open .dropdown {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -415,6 +416,19 @@
     mailLnk.addEventListener("mouseleave", () => {
       clearTimeout(copyTimer);
       mailLnk.classList.remove("copied");
+    });
+
+    // Projeler dropdown — dokunmatikte aç/kapa, dışarı tıklayınca kapan
+    const proj = document.querySelector(".proj");
+    proj.addEventListener("click", (e) => {
+      if (e.target.closest(".dropdown")) return; // proje linkleri normal çalışsın
+      proj.classList.toggle("open");
+    });
+    document.addEventListener("click", (e) => {
+      if (proj.contains(e.target)) return;
+      proj.classList.remove("open");
+      // iOS'ta dışarı dokunmak odağı düşürmez → :focus-within açık bırakır, elle blur
+      if (proj.contains(document.activeElement)) document.activeElement.blur();
     });
   </script>
 </body>
