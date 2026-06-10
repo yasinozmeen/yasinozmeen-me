@@ -6,50 +6,20 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, pi, arm64]
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up QEMU (ARM64 emulation)
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build ARM64 image
+      - name: Build image
         run: |
-          docker buildx build \
-            --platform linux/arm64 \
-            -t yasinozmeen-me:latest \
-            --output type=docker,dest=image.tar \
-            .
+          sudo docker build -t yasinozmeen-me:latest .
 
-      - name: Deploy to Pi
-        env:
-          PI_DEPLOY_KEY: ${{ secrets.PI_DEPLOY_KEY }}
-          PI_HOST: ${{ secrets.PI_HOST }}
-          PI_USER: ${{ secrets.PI_USER }}
+      - name: Deploy container
         run: |
-          # SSH key ayarla
-          mkdir -p ~/.ssh
-          echo "$PI_DEPLOY_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H "$PI_HOST" >> ~/.ssh/known_hosts 2>/dev/null
-
-          # Image'ı Pi'ye gönder
-          cat image.tar | gzip -1 | ssh -i ~/.ssh/deploy_key \
-            -o StrictHostKeyChecking=no \
-            "$PI_USER@$PI_HOST" \
-            'gunzip | sudo docker load'
-
-          # Container'ı yeniden başlat
-          ssh -i ~/.ssh/deploy_key \
-            -o StrictHostKeyChecking=no \
-            "$PI_USER@$PI_HOST" \
-            'sudo docker rm -f yasinozmeen-me && \
-             sudo docker run -d \
-               --name yasinozmeen-me \
-               --restart always \
-               -p 127.0.0.1:3001:80 \
-               yasinozmeen-me:latest && \
-             echo "Deploy OK"'
+          sudo docker rm -f yasinozmeen-me || true
+          sudo docker run -d \
+            --name yasinozmeen-me \
+            --restart always \
+            -p 127.0.0.1:3001:80 \
+            yasinozmeen-me:latest
+          echo "Deploy OK — $(date)"
