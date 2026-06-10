@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>K. Yasin Özmen</title>
+<meta name="description" content="K. Yasin Özmen — Yazılım & İş Geliştirme." />
+
+<!-- Open Graph -->
+<meta property="og:title" content="K. Yasin Özmen" />
+<meta property="og:description" content="Yazılım & İş Geliştirme · Eskişehir, TR" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://yasinozmeen.me" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --paper:      #F3F1EA;   /* kırık beyaz, galeri kâğıdı */
+    --paper-2:    #ECE9E0;
+    --ink:        #111110;   /* neredeyse siyah */
+    --ink-soft:   #56544D;
+    --hairline:   rgba(17,17,16,0.14);
+    --hairline-2: rgba(17,17,16,0.07);
+    --serif: "Newsreader", Georgia, serif;
+    --mono:  "IBM Plex Mono", ui-monospace, monospace;
+    --ease:  cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:      #0C0C0B;
+      --paper-2:    #131311;
+      --ink:        #ECEAE2;
+      --ink-soft:   #908D83;
+      --hairline:   rgba(236,234,226,0.16);
+      --hairline-2: rgba(236,234,226,0.07);
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--mono);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── grain dokusu ── */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+  @media (prefers-color-scheme: dark) { body::after { mix-blend-mode: screen; opacity: 0.05; } }
+
+  /* ── çerçeve ── */
+  .frame {
+    position: fixed;
+    inset: 18px;
+    border: 1px solid var(--hairline);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .frame::before, .frame::after {
+    content: "";
+    position: absolute;
+    width: 9px; height: 9px;
+    border: 1px solid var(--ink);
+  }
+  .frame::before { top: -5px; left: -5px; border-right: 0; border-bottom: 0; }
+  .frame::after  { bottom: -5px; right: -5px; border-left: 0; border-top: 0; }
+
+  .wrap {
+    position: relative;
+    z-index: 3;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: clamp(34px, 6vw, 72px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+    gap: 24px;
+  }
+
+  /* ── üst şerit ── */
+  .topbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .topbar .r { text-align: right; line-height: 1.7; }
+  .topbar .clock { color: var(--ink); }
+
+  /* ── merkez ── */
+  .hero { align-self: center; width: 100%; text-align: left; }
+
+  .role {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ink-soft);
+    margin-top: clamp(14px, 1.8vw, 24px);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 14px;
+  }
+  .role::before { display: none; }
+  .role::after {
+    content: "";
+    width: clamp(20px, 4vw, 46px);
+    height: 1px;
+    background: var(--ink);
+    display: inline-block;
+    opacity: 0.55;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(52px, 10vw, 124px);
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+  }
+  h1 .em { font-style: italic; }
+
+  /* ── linkler ── */
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .lnk {
+    flex: 1 1 auto;
+    min-width: 160px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 20px 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    border-right: 1px solid var(--hairline);
+    position: relative;
+    cursor: pointer;
+    transition: color 0.4s var(--ease);
+  }
+  .lnk:last-child { border-right: 0; }
+  .lnk .idx {
+    font-size: 10px;
+    color: var(--ink-soft);
+    transition: color 0.4s var(--ease);
+  }
+  .lnk .arr {
+    margin-left: auto;
+    transform: translateX(-4px);
+    opacity: 0;
+    transition: transform 0.45s var(--ease), opacity 0.45s var(--ease);
+  }
+  /* alttan dolan blok — scaleY ile, taşma yok (dropdown taşabilsin diye overflow yok) */
+  .lnk::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.45s var(--ease);
+    z-index: -1;
+  }
+  .lnk:hover { color: var(--paper); }
+  .lnk:hover .idx { color: var(--paper); }
+  .lnk:hover .arr { transform: translateX(0); opacity: 1; }
+  .lnk:hover::before { transform: scaleY(1); }
+
+  /* ── E-posta: hover'da mail + kopyala, tıklayınca onay ── */
+  .lnk.mail { cursor: pointer; }
+  .swap { display: grid; align-items: baseline; }
+  .swap .s {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(7px);
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+    pointer-events: none;
+  }
+  .swap .s-mail { text-transform: none; letter-spacing: 0.02em; }
+  .swap .s-label { opacity: 1; transform: none; }
+  .mail:hover .s-label { opacity: 0; transform: translateY(-7px); }
+  .mail:hover .s-mail  { opacity: 1; transform: none; }
+  .mail.copied .s-mail { opacity: 0; transform: translateY(-7px); }
+  .mail.copied .s-done { opacity: 1; transform: none; }
+  .s-done { color: inherit; }
+
+  .ico {
+    margin-left: auto;
+    position: relative;
+    width: 16px; height: 16px;
+    flex: none;
+    align-self: center;
+  }
+  .ico svg {
+    position: absolute;
+    inset: 1px;
+    opacity: 0;
+    transform: scale(0.55) rotate(-14deg);
+    transition: opacity 0.34s var(--ease), transform 0.34s var(--ease);
+  }
+  .mail:hover .ico-copy  { opacity: 1; transform: none; }
+  .mail.copied .ico-copy { opacity: 0; transform: scale(0.55) rotate(14deg); }
+  .mail.copied .ico-check { opacity: 1; transform: none; }
+
+  /* ── Projeler dropdown (yukarı açılır) ── */
+  .proj { position: relative; }
+  .dropdown {
+    position: absolute;
+    bottom: 100%;
+    left: -1px;
+    right: -1px;
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-bottom: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.38s var(--ease), transform 0.38s var(--ease), visibility 0.38s;
+    z-index: 6;
+  }
+  .proj:hover .dropdown,
+  .proj:focus-within .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .dropdown a {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 15px 4px 15px 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--hairline-2);
+    transition: color 0.32s var(--ease), background 0.32s var(--ease);
+  }
+  .dropdown a:last-child { border-bottom: none; }
+  .dropdown a .dot { font-size: 9px; color: var(--ink-soft); transition: color 0.32s var(--ease); }
+  .dropdown a:hover { background: var(--ink); color: var(--paper); }
+  .dropdown a:hover .dot { color: var(--paper); }
+
+  /* ── giriş animasyonu ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: rise 1s var(--ease) forwards;
+  }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.18s; }
+  .d3 { animation-delay: 0.32s; }
+  .d4 { animation-delay: 0.46s; }
+  .d5 { animation-delay: 0.60s; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: none; opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 560px) {
+    .wrap { gap: 32px; }
+    .topbar .hide-sm { display: none; }
+    .links { flex-direction: column; }
+    .lnk { border-right: 0; border-bottom: 1px solid var(--hairline); min-width: 0; }
+    .lnk:last-child { border-bottom: 0; }
+    .lnk .arr { opacity: 1; transform: none; }
+    /* dokunmatik: hover yok — mail + kopyala ikonu hep görünür */
+    .mail .s-label { opacity: 0; }
+    .mail .s-mail { opacity: 1; }
+    .mail .ico-copy { opacity: 1; transform: none; }
+    .mail.copied .s-mail { opacity: 0; }
+    .mail.copied .s-done { opacity: 1; }
+    .mail.copied .ico-copy { opacity: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="frame"></div>
+
+  <main class="wrap">
+    <!-- ÜST ŞERİT -->
+    <header class="topbar reveal d1">
+      <div class="r">
+        <span class="clock" id="clock">--:--:--</span><br />
+        <span>Eskişehir, TR</span>
+      </div>
+    </header>
+
+    <!-- MERKEZ -->
+    <section class="hero">
+      <h1>
+        <span class="reveal d2">K. Yasin</span><br />
+        <span class="em reveal d3">Özmen</span>
+      </h1>
+      <div class="role reveal d4">Yazılım · İş Geliştirme</div>
+    </section>
+
+    <!-- LİNKLER -->
+    <nav class="links reveal d5">
+      <a class="lnk mail" id="mailLnk" href="mailto:yasinozmeen3@gmail.com" data-mail="yasinozmeen3@gmail.com" aria-label="E-posta adresini kopyala">
+        <span class="idx">01</span>
+        <span class="swap">
+          <span class="s s-label">E-posta</span>
+          <span class="s s-mail">yasinozmeen3@gmail.com</span>
+          <span class="s s-done">Kopyalandı</span>
+        </span>
+        <span class="ico" aria-hidden="true">
+          <svg class="ico-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5"></path>
+          </svg>
+        </span>
+      </a>
+      <a class="lnk" href="https://www.linkedin.com/in/yasinozmeen3/" target="_blank" rel="noopener">
+        <span class="idx">02</span> LinkedIn <span class="arr">→</span>
+      </a>
+      <a class="lnk" href="https://x.com/yasinozmeen" target="_blank" rel="noopener">
+        <span class="idx">03</span> X <span class="arr">→</span>
+      </a>
+      <div class="lnk proj" tabindex="0">
+        <span class="idx">04</span> Projeler <span class="arr">↑</span>
+        <div class="dropdown">
+          <a href="https://kokopelli.yasinozmeen.me" target="_blank" rel="noopener">
+            <span class="dot">●</span> Kokopelli Coffee
+          </a>
+        </div>
+      </div>
+    </nav>
+  </main>
+
+  <script>
+    // Canlı saat — Türkiye (Europe/Istanbul)
+    const clockEl = document.getElementById("clock");
+    function tick() {
+      const t = new Date().toLocaleTimeString("tr-TR", {
+        hour: "2-digit", minute: "2-digit", second: "2-digit",
+        hour12: false, timeZone: "Europe/Istanbul"
+      });
+      clockEl.textContent = t;
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // E-posta: tıklayınca panoya kopyala + onay animasyonu
+    const mailLnk = document.getElementById("mailLnk");
+    let copyTimer;
+    async function copyMail(e) {
+      e.preventDefault();
+      const mail = mailLnk.dataset.mail;
+      try {
+        await navigator.clipboard.writeText(mail);
+      } catch (err) {
+        const ta = document.createElement("textarea");
+        ta.value = mail;
+        ta.style.cssText = "position:fixed;top:0;left:0;opacity:0;";
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        try { document.execCommand("copy"); } catch (_) {}
+        document.body.removeChild(ta);
+      }
+      mailLnk.classList.add("copied");
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => mailLnk.classList.remove("copied"), 1900);
+    }
+    mailLnk.addEventListener("click", copyMail);
+    mailLnk.addEventListener("mouseleave", () => {
+      clearTimeout(copyTimer);
+      mailLnk.classList.remove("copied");
+    });
+  </script>
+</body>
+</html>
