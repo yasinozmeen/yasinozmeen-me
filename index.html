@@ -200,8 +200,7 @@
   .lnk:hover .arr { transform: translateX(0); opacity: 1; }
   .lnk:hover::before { transform: scaleY(1); }
 
-  /* ── E-posta: hover'da mail + kopyala, tıklayınca onay ── */
-  .lnk.mail { cursor: pointer; }
+  /* ── E-postayı kopyala: hover'da mail + kopyala, tıklayınca onay ── */
   .swap { display: grid; align-items: baseline; }
   .swap .s {
     grid-area: 1 / 1;
@@ -222,7 +221,7 @@
   .ico {
     margin-left: auto;
     position: relative;
-    width: 16px; height: 16px;
+    width: 15px; height: 15px;
     flex: none;
     align-self: center;
   }
@@ -237,8 +236,8 @@
   .mail.copied .ico-copy { opacity: 0; transform: scale(0.55) rotate(14deg); }
   .mail.copied .ico-check { opacity: 1; transform: none; }
 
-  /* ── Projeler dropdown (yukarı açılır) ── */
-  .proj { position: relative; }
+  /* ── Dropdown (yukarı açılır) — İletişim & Projeler ── */
+  .drop { position: relative; }
   .dropdown {
     position: absolute;
     bottom: 100%;
@@ -253,9 +252,9 @@
     transition: opacity 0.38s var(--ease), transform 0.38s var(--ease), visibility 0.38s;
     z-index: 6;
   }
-  .proj:hover .dropdown,
-  .proj:focus-within .dropdown,
-  .proj.open .dropdown {
+  .drop:hover .dropdown,
+  .drop:focus-within .dropdown,
+  .drop.open .dropdown {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -278,6 +277,109 @@
   .dropdown a .dot { font-size: 9px; color: var(--ink-soft); transition: color 0.32s var(--ease); }
   .dropdown a:hover { background: var(--ink); color: var(--paper); }
   .dropdown a:hover .dot { color: var(--paper); }
+
+  /* ── İletişim formu kartı (yukarı açılır) ── */
+  .contact-card {
+    position: absolute;
+    bottom: 100%;
+    left: -1px;
+    width: min(400px, 86vw);
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-bottom: none;
+    padding: 20px 18px 18px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.38s var(--ease), transform 0.38s var(--ease), visibility 0.38s;
+    z-index: 7;
+  }
+  .drop.form-open .contact-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .drop.form-open .dropdown {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+  }
+
+  .f-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+  .f-close {
+    background: none;
+    border: 0;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px;
+    margin: -4px;
+    transition: color 0.3s var(--ease);
+  }
+  .f-close:hover { color: var(--ink); }
+
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .field input,
+  .field textarea {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--hairline);
+    border-radius: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink);
+    padding: 5px 0 8px;
+    outline: none;
+    transition: border-color 0.3s var(--ease);
+  }
+  .field input:focus,
+  .field textarea:focus { border-bottom-color: var(--ink); }
+  .field textarea { resize: none; min-height: 60px; line-height: 1.6; }
+
+  .f-send {
+    width: 100%;
+    margin-top: 4px;
+    background: transparent;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: background 0.32s var(--ease), color 0.32s var(--ease), opacity 0.32s var(--ease);
+  }
+  .f-send:hover { background: var(--ink); color: var(--paper); }
+  .f-send:disabled { opacity: 0.55; cursor: default; }
+  .f-note {
+    margin-top: 10px;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    min-height: 12px;
+  }
+  .f-honey { display: none; }
 
   /* ── giriş animasyonu ── */
   .reveal {
@@ -309,6 +411,7 @@
     .mail.copied .s-mail { opacity: 0; }
     .mail.copied .s-done { opacity: 1; }
     .mail.copied .ico-copy { opacity: 0; }
+    .contact-card { width: auto; left: -1px; right: -1px; }
   }
 </style>
 </head>
@@ -335,23 +438,54 @@
 
     <!-- LİNKLER -->
     <nav class="links reveal d5">
-      <a class="lnk mail" id="mailLnk" href="mailto:yasinozmeen3@gmail.com" data-mail="yasinozmeen3@gmail.com" aria-label="E-posta adresini kopyala">
-        <span class="idx">01</span>
-        <span class="swap">
-          <span class="s s-label">E-posta</span>
-          <span class="s s-mail">yasinozmeen3@gmail.com</span>
-          <span class="s s-done">Kopyalandı</span>
-        </span>
-        <span class="ico" aria-hidden="true">
-          <svg class="ico-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="9" width="11" height="11" rx="2"></rect>
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-          </svg>
-          <svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 6L9 17l-5-5"></path>
-          </svg>
-        </span>
-      </a>
+      <div class="lnk drop" id="contactDrop" tabindex="0">
+        <span class="idx">01</span> İletişim <span class="arr">↑</span>
+        <div class="dropdown">
+          <a href="mailto:yasinozmeen3@gmail.com" id="openForm">
+            <span class="dot">●</span> İletişime geç
+          </a>
+          <a href="#" id="copyMail" class="mail" data-mail="yasinozmeen3@gmail.com" aria-label="E-posta adresini kopyala">
+            <span class="dot">●</span>
+            <span class="swap">
+              <span class="s s-label">E-postayı kopyala</span>
+              <span class="s s-mail">yasinozmeen3@gmail.com</span>
+              <span class="s s-done">Kopyalandı</span>
+            </span>
+            <span class="ico" aria-hidden="true">
+              <svg class="ico-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+        <div class="contact-card" role="dialog" aria-label="İletişim formu">
+          <div class="f-head">
+            <span>İletişime geç</span>
+            <button type="button" class="f-close" id="formClose" aria-label="Kapat">✕</button>
+          </div>
+          <form id="contactForm">
+            <input type="text" name="_honey" class="f-honey" tabindex="-1" autocomplete="off" />
+            <div class="field">
+              <label for="fSubject">Konu</label>
+              <input type="text" id="fSubject" name="_subject" required maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="fEmail">E-postanız</label>
+              <input type="email" id="fEmail" name="email" required autocomplete="email" />
+            </div>
+            <div class="field">
+              <label for="fMessage">İçerik</label>
+              <textarea id="fMessage" name="message" required rows="3" maxlength="2000"></textarea>
+            </div>
+            <button type="submit" class="f-send" id="sendBtn">Gönder</button>
+            <div class="f-note" id="formNote" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
       <a class="lnk" href="https://www.linkedin.com/in/yasinozmeen3/" target="_blank" rel="noopener">
         <span class="idx">02</span> LinkedIn <span class="arr">→</span>
       </a>
@@ -361,7 +495,7 @@
       <a class="lnk" href="https://youtube.com/@yasinozmeen" target="_blank" rel="noopener">
         <span class="idx">04</span> YouTube <span class="arr">→</span>
       </a>
-      <div class="lnk proj" tabindex="0">
+      <div class="lnk drop" tabindex="0">
         <span class="idx">05</span> Projeler <span class="arr">↑</span>
         <div class="dropdown">
           <a href="https://kokopelli.yasinozmeen.me" target="_blank" rel="noopener">
@@ -391,12 +525,12 @@
     tick();
     setInterval(tick, 1000);
 
-    // E-posta: tıklayınca panoya kopyala + onay animasyonu
-    const mailLnk = document.getElementById("mailLnk");
+    // E-postayı kopyala: tıklayınca panoya kopyala + onay animasyonu
+    const copyMailLnk = document.getElementById("copyMail");
     let copyTimer;
-    async function copyMail(e) {
+    copyMailLnk.addEventListener("click", async (e) => {
       e.preventDefault();
-      const mail = mailLnk.dataset.mail;
+      const mail = copyMailLnk.dataset.mail;
       try {
         await navigator.clipboard.writeText(mail);
       } catch (err) {
@@ -408,27 +542,81 @@
         try { document.execCommand("copy"); } catch (_) {}
         document.body.removeChild(ta);
       }
-      mailLnk.classList.add("copied");
+      copyMailLnk.classList.add("copied");
       clearTimeout(copyTimer);
-      copyTimer = setTimeout(() => mailLnk.classList.remove("copied"), 1900);
-    }
-    mailLnk.addEventListener("click", copyMail);
-    mailLnk.addEventListener("mouseleave", () => {
+      copyTimer = setTimeout(() => copyMailLnk.classList.remove("copied"), 1900);
+    });
+    copyMailLnk.addEventListener("mouseleave", () => {
       clearTimeout(copyTimer);
-      mailLnk.classList.remove("copied");
+      copyMailLnk.classList.remove("copied");
     });
 
-    // Projeler dropdown — dokunmatikte aç/kapa, dışarı tıklayınca kapan
-    const proj = document.querySelector(".proj");
-    proj.addEventListener("click", (e) => {
-      if (e.target.closest(".dropdown")) return; // proje linkleri normal çalışsın
-      proj.classList.toggle("open");
+    // Dropdown'lar (İletişim & Projeler) — dokunmatikte aç/kapa, dışarı tıklayınca kapan
+    const drops = document.querySelectorAll(".drop");
+    drops.forEach((drop) => {
+      drop.addEventListener("click", (e) => {
+        if (e.target.closest(".dropdown") || e.target.closest(".contact-card")) return;
+        drops.forEach((d) => { if (d !== drop) d.classList.remove("open"); });
+        drop.classList.remove("form-open");
+        drop.classList.toggle("open");
+      });
     });
     document.addEventListener("click", (e) => {
-      if (proj.contains(e.target)) return;
-      proj.classList.remove("open");
-      // iOS'ta dışarı dokunmak odağı düşürmez → :focus-within açık bırakır, elle blur
-      if (proj.contains(document.activeElement)) document.activeElement.blur();
+      drops.forEach((drop) => {
+        if (drop.contains(e.target)) return;
+        drop.classList.remove("open");
+        drop.classList.remove("form-open");
+        // iOS'ta dışarı dokunmak odağı düşürmez → :focus-within açık bırakır, elle blur
+        if (drop.contains(document.activeElement)) document.activeElement.blur();
+      });
+    });
+
+    // İletişim formu — aç/kapa + FormSubmit ile gönderim
+    const contactDrop = document.getElementById("contactDrop");
+    const contactForm = document.getElementById("contactForm");
+    const sendBtn = document.getElementById("sendBtn");
+    const formNote = document.getElementById("formNote");
+
+    document.getElementById("openForm").addEventListener("click", (e) => {
+      e.preventDefault();
+      contactDrop.classList.remove("open");
+      contactDrop.classList.add("form-open");
+      setTimeout(() => document.getElementById("fSubject").focus(), 400);
+    });
+    document.getElementById("formClose").addEventListener("click", () => {
+      contactDrop.classList.remove("form-open");
+      if (contactDrop.contains(document.activeElement)) document.activeElement.blur();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") contactDrop.classList.remove("form-open");
+    });
+
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(contactForm).entries());
+      sendBtn.disabled = true;
+      sendBtn.textContent = "Gönderiliyor…";
+      formNote.textContent = "";
+      try {
+        const res = await fetch("https://formsubmit.co/ajax/yasinozmeen3@gmail.com", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error("send failed");
+        sendBtn.textContent = "Gönderildi ✓";
+        contactForm.reset();
+        setTimeout(() => {
+          contactDrop.classList.remove("form-open");
+          sendBtn.disabled = false;
+          sendBtn.textContent = "Gönder";
+          if (contactDrop.contains(document.activeElement)) document.activeElement.blur();
+        }, 1600);
+      } catch (err) {
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Gönder";
+        formNote.textContent = "Gönderilemedi — e-postayı kopyalayıp yazabilirsiniz";
+      }
     });
   </script>
 </body>
