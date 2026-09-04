@@ -243,6 +243,7 @@
     bottom: 100%;
     left: -1px;
     right: -1px;
+    min-width: max(100%, 280px);
     background: var(--paper);
     border: 1px solid var(--hairline);
     border-bottom: none;
@@ -259,7 +260,7 @@
     visibility: visible;
     transform: translateY(0);
   }
-  .dropdown a {
+  .dropdown > a {
     display: flex;
     align-items: baseline;
     gap: 10px;
@@ -273,10 +274,53 @@
     border-bottom: 1px solid var(--hairline-2);
     transition: color 0.32s var(--ease), background 0.32s var(--ease);
   }
-  .dropdown a:last-child { border-bottom: none; }
-  .dropdown a .dot { font-size: 9px; color: var(--ink-soft); transition: color 0.32s var(--ease); }
-  .dropdown a:hover { background: var(--ink); color: var(--paper); }
-  .dropdown a:hover .dot { color: var(--paper); }
+  .dropdown > a:last-child { border-bottom: none; }
+  .dropdown > a .dot { font-size: 9px; color: var(--ink-soft); transition: color 0.32s var(--ease); }
+  .dropdown > a:hover { background: var(--ink); color: var(--paper); }
+  .dropdown > a:hover .dot { color: var(--paper); }
+
+  .dropdown .drop-split {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--hairline-2);
+  }
+  .dropdown .drop-split > a {
+    display: flex;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  .dropdown .drop-split .split-site {
+    flex: 1;
+    padding: 14px 16px;
+    gap: 10px;
+    border-right: 1px solid var(--hairline-2);
+  }
+  .dropdown .drop-split .split-site svg.hush-logo {
+    width: 15px;
+    height: 15px;
+    flex: none;
+  }
+  .dropdown .drop-split .split-ext {
+    flex: 0 0 74px;
+    justify-content: center;
+    padding: 14px 10px;
+  }
+  .dropdown .drop-split .split-ext svg.puzzle-ico {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+  }
+  .dropdown .drop-split > a:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
 
   /* ── İletişim formu kartı (yukarı açılır) ── */
   .contact-card {
@@ -498,6 +542,21 @@
       <div class="lnk drop" tabindex="0">
         <span class="idx">05</span> Projeler <span class="arr">↑</span>
         <div class="dropdown">
+          <div class="drop-split">
+            <a href="https://hush-pdf.yasinozmeen.me" target="_blank" rel="noopener" class="split-site" title="Hush PDF">
+              <svg class="hush-logo" viewBox="0 0 128 128" fill="none" aria-hidden="true">
+                <path d="M25 8h53l25 25v87H25z" fill="currentColor" fill-opacity="0.12" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/>
+                <path d="M78 8v25h25" fill="none" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/>
+                <path d="M44 80c8-11 32-11 40 0" fill="none" stroke="#9a5b2b" stroke-width="12" stroke-linecap="round"/>
+              </svg>
+              <span>Hush PDF</span>
+            </a>
+            <a href="https://chromewebstore.google.com/detail/hush-pdf/pinloifchcidhkkljdiokbafjjlfhnla" target="_blank" rel="noopener" class="split-ext" title="Chrome Web Store">
+              <svg class="puzzle-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Chrome Extension">
+                <path d="M14 7a2 2 0 0 1 2-2h4v4a2 2 0 0 1-2 2 2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 1 2 2v4h-4a2 2 0 0 1-2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 1-2 2H4v-4a2 2 0 0 1 2-2 2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 1-2-2V4h4a2 2 0 0 1 2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2z"/>
+              </svg>
+            </a>
+          </div>
           <a href="https://kokopelli.yasinozmeen.me" target="_blank" rel="noopener">
             <span class="dot">●</span> Kokopelli Coffee
           </a>
