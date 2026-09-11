@@ -27,9 +27,9 @@ jobs:
             yasinozmeen-me:latest
           echo "Deploy OK — $(date)"
 
-      - name: Deploy SmartPause site (smartpause.yasinozmeen.me → 127.0.0.1:3002)
+      - name: Deploy SmartPause site (smartpause.yasinozmeen.me → 127.0.0.1:3012)
         run: |
           sudo docker build -t smartpause-site:latest smartpause/site
           sudo docker rm -f smartpause-site || true
-          sudo docker run -d --name smartpause-site --restart always -p 127.0.0.1:3002:80 smartpause-site:latest
+          sudo docker run -d --name smartpause-site --restart always -p 127.0.0.1:3012:80 smartpause-site:latest
           echo "SmartPause site OK — $(date)"
