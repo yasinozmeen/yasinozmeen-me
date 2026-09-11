@@ -153,6 +153,8 @@
   .role::before { display: none; }
   .role::after {
     content: "";
+    flex: 1 1 auto;            /* sağ ucu sabit: metin kısalınca çizgi uzar (genişlik JS'te iki dilin en genişine göre sabitlenir) */
+    min-width: clamp(20px, 4vw, 46px);
     width: clamp(20px, 4vw, 46px);
     height: 1px;
     background: var(--ink);
@@ -670,6 +672,11 @@
         for (const [code, L] of Object.entries(I18N)) { probe.textContent = L[el.dataset.i18n]; m[code] = Math.ceil(probe.getBoundingClientRect().width); }
         widths.set(el, m);
         el.style.whiteSpace = "nowrap"; el.style.minWidth = m[lang] + "px";
+        if (el.dataset.i18n === "role") {   // rol satırının toplam genişliği sabit → çizginin sağ ucu hiç kıpırdamaz
+          const role = el.parentElement, gap = parseFloat(getComputedStyle(role).gap) || 14;
+          const line = parseFloat(getComputedStyle(role, "::after").minWidth) || 46;
+          role.style.width = (Math.max(...Object.values(m)) + gap + line) + "px";
+        }
         el.style.transition = "min-width 0.8s cubic-bezier(0.65, 0, 0.35, 1)";   /* ease-in-out: yavaş başlar, yavaş biter */
       });
       probe.remove();
