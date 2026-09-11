@@ -646,14 +646,14 @@
         const newText = d[el.dataset.i18n]; const n = Math.max(oldWords.length, newText.split(" ").length);
         oldWords.forEach((w, i) => {
           w.animate([{ transform: "rotateX(0deg)", opacity: 1 }, { transform: "rotateX(-90deg)", opacity: 0 }],
-            { duration: 260, delay: ei * 30 + i * 45, easing: "cubic-bezier(0.55, 0, 1, 0.45)", fill: "forwards" });
+            { duration: 300, delay: ei * 30 + i * 45, easing: "cubic-bezier(0.45, 0, 0.7, 0.3)", fill: "forwards" });
         });
         const inAt = ei * 30 + (oldWords.length - 1) * 45 + 260;
         const m = widths.get(el); if (m) setTimeout(() => { el.style.minWidth = m[next] + "px"; }, ei * 30);   // kelimelerle aynı anda başlar
         setTimeout(() => {
           const ws = wrapWords(el, newText);
           ws.forEach((w, i) => w.animate([{ transform: "rotateX(90deg)", opacity: 0 }, { transform: "rotateX(0deg)", opacity: 1 }],
-            { duration: 420, delay: i * 45, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "forwards" }));
+            { duration: 420, delay: i * 45, easing: "cubic-bezier(0.3, 0.7, 0.55, 1)", fill: "forwards" }));
           setTimeout(() => { el.textContent = newText; }, 420 + n * 45 + 20);   // temizle: düz metne dön
         }, inAt);
       });
@@ -677,7 +677,7 @@
           const line = parseFloat(getComputedStyle(role, "::after").minWidth) || 46;
           role.style.width = (Math.max(...Object.values(m)) + gap + line) + "px";
         }
-        el.style.transition = "min-width 0.8s cubic-bezier(0.65, 0, 0.35, 1)";   /* ease-in-out: yavaş başlar, yavaş biter */
+        el.style.transition = "min-width 0.9s cubic-bezier(0.45, 0, 0.55, 1)";   /* ease-in-out: yavaş başlar, yavaş biter */
       });
       probe.remove();
     }
