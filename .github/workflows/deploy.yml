@@ -9,6 +9,9 @@ jobs:
     runs-on: [self-hosted, pi, arm64]
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout SmartPause site
+        uses: actions/checkout@v4
+        with: { repository: yasinozmeen/smartpause, path: smartpause }
 
       - name: Build image
         run: |
@@ -23,3 +26,10 @@ jobs:
             -p 127.0.0.1:3001:80 \
             yasinozmeen-me:latest
           echo "Deploy OK — $(date)"
+
+      - name: Deploy SmartPause site (smartpause.yasinozmeen.me → 127.0.0.1:3002)
+        run: |
+          sudo docker build -t smartpause-site:latest smartpause/site
+          sudo docker rm -f smartpause-site || true
+          sudo docker run -d --name smartpause-site --restart always -p 127.0.0.1:3002:80 smartpause-site:latest
+          echo "SmartPause site OK — $(date)"

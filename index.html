@@ -109,8 +109,30 @@
     text-transform: uppercase;
     color: var(--ink-soft);
   }
+  .topbar { justify-content: space-between; }
   .topbar .r { text-align: right; line-height: 1.7; }
   .topbar .clock { color: var(--ink); }
+  /* Buy Me a Coffee — üst şeritte, saatle aynı dilde */
+  .topbar .coffee {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--ink-soft); text-decoration: none; line-height: 1.7;
+    border-bottom: 1px solid var(--hairline); padding-bottom: 2px;
+    transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .topbar .coffee svg { width: 14px; height: 14px; flex: none; }
+  .topbar .coffee:hover { color: var(--ink); border-color: var(--ink); }
+  .topbar .coffee .arr { font-size: 12px; }
+  /* Dil anahtarı: saatin altında, aynı dilde; görünmez denecek kadar sessiz */
+  .topbar .lang {
+    font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--ink-soft);
+    background: none; border: 0; padding: 0; cursor: pointer; line-height: 1.7; opacity: 0.55;
+    transition: opacity 0.3s var(--ease);
+  }
+  .topbar .lang:hover, .topbar .lang:focus-visible { opacity: 1; }
+  .topbar .lang .on { color: var(--ink); }
+  /* Kelime takla: her kelime kendi yerinde X ekseninde döner, metin yarı yolda değişir */
+  [data-i18n] { display: inline-block; perspective: 600px; }
+  .w { display: inline-block; transform-origin: 50% 50%; backface-visibility: hidden; will-change: transform, opacity; }
 
   /* ── merkez ── */
   .hero { align-self: center; width: 100%; text-align: left; }
@@ -465,9 +487,14 @@
   <main class="wrap">
     <!-- ÜST ŞERİT -->
     <header class="topbar reveal d1">
+      <a class="coffee" href="https://buymeacoffee.com/yasinozmeen" target="_blank" rel="noopener" title="Buy Me a Coffee">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c0 1.2 1 1.4 1 2.5S8 7 8 8M12 3c0 1.2 1 1.4 1 2.5S12 7 12 8"/></svg>
+        <span data-i18n="coffee">Bana kahve ısmarla</span> <span class="arr">↗</span>
+      </a>
       <div class="r">
         <span class="clock" id="clock">--:--:--</span><br />
-        <span>Eskişehir, TR</span>
+        <span data-i18n="place">Eskişehir, TR</span><br />
+        <button type="button" class="lang" id="langBtn" aria-label="Dil / Language"><span class="on">TR</span> / <span>EN</span></button>
       </div>
     </header>
 
@@ -477,23 +504,23 @@
         <span class="reveal d2">K. Yasin</span><br />
         <span class="em reveal d3">Özmen</span>
       </h1>
-      <div class="role reveal d4">Yazılım · İş Geliştirme</div>
+      <div class="role reveal d4" data-i18n="role">Yazılım · İş Geliştirme</div>
     </section>
 
     <!-- LİNKLER -->
     <nav class="links reveal d5">
       <div class="lnk drop" id="contactDrop" tabindex="0">
-        <span class="idx">01</span> İletişim <span class="arr">↑</span>
+        <span class="idx">01</span> <span data-i18n="contact">İletişim</span> <span class="arr">↑</span>
         <div class="dropdown">
           <a href="mailto:yasinozmeen3@gmail.com" id="openForm">
-            <span class="dot">●</span> İletişime geç
+            <span class="dot">●</span> <span data-i18n="getInTouch">İletişime geç</span>
           </a>
           <a href="#" id="copyMail" class="mail" data-mail="yasinozmeen3@gmail.com" aria-label="E-posta adresini kopyala">
             <span class="dot">●</span>
             <span class="swap">
-              <span class="s s-label">E-postayı kopyala</span>
+              <span class="s s-label" data-i18n="copyMail">E-postayı kopyala</span>
               <span class="s s-mail">yasinozmeen3@gmail.com</span>
-              <span class="s s-done">Kopyalandı</span>
+              <span class="s s-done" data-i18n="copied">Kopyalandı</span>
             </span>
             <span class="ico" aria-hidden="true">
               <svg class="ico-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -508,24 +535,24 @@
         </div>
         <div class="contact-card" role="dialog" aria-label="İletişim formu">
           <div class="f-head">
-            <span>İletişime geç</span>
+            <span data-i18n="getInTouch">İletişime geç</span>
             <button type="button" class="f-close" id="formClose" aria-label="Kapat">✕</button>
           </div>
           <form id="contactForm">
             <input type="text" name="_honey" class="f-honey" tabindex="-1" autocomplete="off" />
             <div class="field">
-              <label for="fSubject">Konu</label>
+              <label for="fSubject" data-i18n="subject">Konu</label>
               <input type="text" id="fSubject" name="_subject" required maxlength="120" />
             </div>
             <div class="field">
-              <label for="fEmail">E-postanız</label>
+              <label for="fEmail" data-i18n="yourEmail">E-postanız</label>
               <input type="email" id="fEmail" name="email" required autocomplete="email" />
             </div>
             <div class="field">
-              <label for="fMessage">İçerik</label>
+              <label for="fMessage" data-i18n="message">İçerik</label>
               <textarea id="fMessage" name="message" required rows="3" maxlength="2000"></textarea>
             </div>
-            <button type="submit" class="f-send" id="sendBtn">Gönder</button>
+            <button type="submit" class="f-send" id="sendBtn" data-i18n="send">Gönder</button>
             <div class="f-note" id="formNote" aria-live="polite"></div>
           </form>
         </div>
@@ -540,7 +567,7 @@
         <span class="idx">04</span> YouTube <span class="arr">→</span>
       </a>
       <div class="lnk drop" tabindex="0">
-        <span class="idx">05</span> Projeler <span class="arr">↑</span>
+        <span class="idx">05</span> <span data-i18n="projects">Projeler</span> <span class="arr">↑</span>
         <div class="dropdown">
           <div class="drop-split">
             <a href="https://hush-pdf.yasinozmeen.me" target="_blank" rel="noopener" class="split-site" title="Hush PDF">
@@ -555,6 +582,17 @@
               <svg class="puzzle-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="Chrome Extension">
                 <path d="M4 6a2 2 0 0 1 2-2h3.5a2 2 0 0 1 2-1.5 2 2 0 0 1 2 1.5H17a2 2 0 0 1 2 2v3.5a2 2 0 0 1 1.5 2 2 2 0 0 1-1.5 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3.5a2 2 0 0 0 1.5-2 2 2 0 0 0-1.5-2V6z"/>
               </svg>
+            </a>
+          </div>
+          <div class="drop-split">
+            <a href="https://smartpause.yasinozmeen.me" target="_blank" rel="noopener" class="split-site" title="SmartPause">
+              <svg class="hush-logo" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+                <path d="M18 22c0-4 4-6.5 7.5-4.5l38 25c3.3 2.2 3.3 7 0 9.2l-38 25C22 78.5 18 76 18 72z"/><rect x="70" y="20" width="12" height="60" rx="5"/>
+              </svg>
+              <span>SmartPause</span>
+            </a>
+            <a href="https://github.com/yasinozmeen/smartpause" target="_blank" rel="noopener" class="split-ext" title="GitHub">
+              <svg class="puzzle-ico" viewBox="0 0 24 24" fill="currentColor" aria-label="GitHub"><path d="M12 .5C5.7.5.7 5.5.7 11.8c0 5 3.2 9.2 7.7 10.7.6.1.8-.2.8-.5v-2c-3.1.7-3.8-1.3-3.8-1.3-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.5-.3-5.1-1.2-5.1-5.5 0-1.2.4-2.2 1.2-3-.1-.3-.5-1.5.1-3 0 0 1-.3 3.1 1.2a10.8 10.8 0 0 1 5.7 0c2.2-1.5 3.1-1.2 3.1-1.2.6 1.5.2 2.7.1 3 .8.8 1.2 1.8 1.2 3 0 4.3-2.6 5.2-5.1 5.5.4.4.8 1 .8 2.1v3.1c0 .3.2.7.8.5 4.5-1.5 7.7-5.7 7.7-10.7C23.3 5.5 18.3.5 12 .5z"/></svg>
             </a>
           </div>
           <a href="https://kokopelli.yasinozmeen.me" target="_blank" rel="noopener">
@@ -573,6 +611,54 @@
 
   <script>
     // Canlı saat — Türkiye (Europe/Istanbul)
+    // ── Dil: tarayıcı diline göre (tr → Türkçe, diğerleri İngilizce); seçim hatırlanır; yenileme yok ──
+    const I18N = {
+      tr: { coffee:"Bana kahve ısmarla", place:"Eskişehir, TR", role:"Yazılım · İş Geliştirme", contact:"İletişim", getInTouch:"İletişime geç",
+            copyMail:"E-postayı kopyala", copied:"Kopyalandı", subject:"Konu", yourEmail:"E-postanız", message:"İçerik", send:"Gönder", projects:"Projeler",
+            _close:"Kapat", _form:"İletişim formu", _copyAria:"E-posta adresini kopyala", _title:"K. Yasin Özmen — Yazılım · İş Geliştirme" },
+      en: { coffee:"Buy me a coffee", place:"Eskişehir, TR", role:"Software · Business Development", contact:"Contact", getInTouch:"Get in touch",
+            copyMail:"Copy email", copied:"Copied", subject:"Subject", yourEmail:"Your email", message:"Message", send:"Send", projects:"Projects",
+            _close:"Close", _form:"Contact form", _copyAria:"Copy email address", _title:"K. Yasin Özmen — Software · Business Development" }
+    };
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let lang = localStorage.getItem("lang") || ((navigator.language || "en").toLowerCase().startsWith("tr") ? "tr" : "en");
+    function wrapWords(el, text) {
+      el.innerHTML = "";
+      text.split(" ").forEach((w, i, arr) => {
+        const s = document.createElement("span"); s.className = "w"; s.textContent = w; el.appendChild(s);
+        if (i < arr.length - 1) el.appendChild(document.createTextNode(" "));
+      });
+      return [...el.querySelectorAll(".w")];
+    }
+    function applyLang(next, animate) {
+      const d = I18N[next]; document.documentElement.lang = next; document.title = d._title;
+      document.getElementById("formClose")?.setAttribute("aria-label", d._close);
+      document.querySelector(".contact-card")?.setAttribute("aria-label", d._form);
+      document.getElementById("copyMail")?.setAttribute("aria-label", d._copyAria);
+      document.querySelectorAll("#langBtn span").forEach(s => s.classList.toggle("on", s.textContent.toLowerCase() === next));
+      const els = [...document.querySelectorAll("[data-i18n]")];
+      if (!animate || reduceMotion) { els.forEach(el => { el.textContent = d[el.dataset.i18n]; }); return; }
+      els.forEach((el, ei) => {
+        const oldWords = wrapWords(el, el.textContent);
+        const newText = d[el.dataset.i18n]; const n = Math.max(oldWords.length, newText.split(" ").length);
+        oldWords.forEach((w, i) => {
+          w.animate([{ transform: "rotateX(0deg)", opacity: 1 }, { transform: "rotateX(-90deg)", opacity: 0 }],
+            { duration: 260, delay: ei * 30 + i * 45, easing: "cubic-bezier(0.55, 0, 1, 0.45)", fill: "forwards" });
+        });
+        const inAt = ei * 30 + (oldWords.length - 1) * 45 + 260;
+        setTimeout(() => {
+          const ws = wrapWords(el, newText);
+          ws.forEach((w, i) => w.animate([{ transform: "rotateX(90deg)", opacity: 0 }, { transform: "rotateX(0deg)", opacity: 1 }],
+            { duration: 420, delay: i * 45, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "forwards" }));
+          setTimeout(() => { el.textContent = newText; }, 420 + n * 45 + 20);   // temizle: düz metne dön
+        }, inAt);
+      });
+    }
+    applyLang(lang, false);
+    document.getElementById("langBtn")?.addEventListener("click", () => {
+      lang = lang === "tr" ? "en" : "tr"; localStorage.setItem("lang", lang); applyLang(lang, true);
+    });
+
     const clockEl = document.getElementById("clock");
     function tick() {
       const t = new Date().toLocaleTimeString("tr-TR", {
