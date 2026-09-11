@@ -640,7 +640,7 @@
       document.getElementById("copyMail")?.setAttribute("aria-label", d._copyAria);
       document.querySelectorAll("#langBtn span").forEach(s => s.classList.toggle("on", s.textContent.toLowerCase() === next));
       const els = [...document.querySelectorAll("[data-i18n]")];
-      if (!animate || reduceMotion) { els.forEach(el => { el.textContent = d[el.dataset.i18n]; const m = widths.get(el); if (m) el.style.minWidth = m[next] + "px"; }); return; }
+      if (!animate || reduceMotion) { els.forEach(el => { el.textContent = d[el.dataset.i18n]; const m = widths.get(el); if (m) el.style.width = m[next] + "px"; }); return; }
       els.forEach((el, ei) => {
         const oldWords = wrapWords(el, el.textContent);
         const newText = d[el.dataset.i18n]; const n = Math.max(oldWords.length, newText.split(" ").length);
@@ -649,7 +649,7 @@
             { duration: 300, delay: ei * 30 + i * 45, easing: "cubic-bezier(0.45, 0, 0.7, 0.3)", fill: "forwards" });
         });
         const inAt = ei * 30 + (oldWords.length - 1) * 45 + 260;
-        const m = widths.get(el); if (m) setTimeout(() => { el.style.minWidth = m[next] + "px"; }, ei * 30);   // kelimelerle aynı anda başlar
+        const m = widths.get(el); if (m) setTimeout(() => { el.style.width = m[next] + "px"; }, ei * 30);   // kelimelerle aynı anda başlar
         setTimeout(() => {
           const ws = wrapWords(el, newText);
           ws.forEach((w, i) => w.animate([{ transform: "rotateX(90deg)", opacity: 0 }, { transform: "rotateX(0deg)", opacity: 1 }],
@@ -671,13 +671,13 @@
         const m = {};
         for (const [code, L] of Object.entries(I18N)) { probe.textContent = L[el.dataset.i18n]; m[code] = Math.ceil(probe.getBoundingClientRect().width); }
         widths.set(el, m);
-        el.style.whiteSpace = "nowrap"; el.style.minWidth = m[lang] + "px";
+        el.style.whiteSpace = "nowrap"; el.style.width = m[lang] + "px"; el.style.clipPath = "inset(-60% -1px -60% -1px)";
         if (el.dataset.i18n === "role") {   // rol satırının toplam genişliği sabit → çizginin sağ ucu hiç kıpırdamaz
           const role = el.parentElement, gap = parseFloat(getComputedStyle(role).gap) || 14;
           const line = parseFloat(getComputedStyle(role, "::after").minWidth) || 46;
           role.style.width = (Math.max(...Object.values(m)) + gap + line) + "px";
         }
-        el.style.transition = "min-width 0.9s cubic-bezier(0.45, 0, 0.55, 1)";   /* ease-in-out: yavaş başlar, yavaş biter */
+        el.style.transition = "width 0.9s cubic-bezier(0.45, 0, 0.55, 1)";   /* ease-in-out: yavaş başlar, yavaş biter */
       });
       probe.remove();
     }
